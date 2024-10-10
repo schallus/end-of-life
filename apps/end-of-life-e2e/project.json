@@ -1,0 +1,9 @@
+{
+  "name": "end-of-life-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/end-of-life-e2e/src",
+  "implicitDependencies": ["end-of-life"],
+  "// targets": "to see all targets run: nx show project end-of-life-e2e --web",
+  "targets": {}
+}

@@ -1,0 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+* {
+  font-family: Raleway, sans-serif !important;
+}
+
+:root {
+  /* Greyscale */
+  --color-grey-100: #f5f5f5; /* Very light grey */
+  --color-grey-200: #e0e0e0; /* Light grey */
+  --color-grey-300: #c0c0c0; /* Medium grey */
+  --color-grey-400: #a0a0a0; /* Dark grey */
+  --color-grey-500: #808080; /* Darker grey */
+  --color-grey-600: #666666; /* Even darker grey */
+  --color-grey-700: #4d4d4d; /* Dark grey approaching black */
+  --color-grey-800: #333333; /* Very dark grey */
+  --color-grey-900: #1a1a1a; /* Almost black */
+
+  /* Semantic Colors */
+  --color-success: #4caf50; /* Green - Success */
+  --color-danger: #f44336; /* Red - Danger */
+  --color-warning: #ff9800; /* Orange - Warning */
+}
