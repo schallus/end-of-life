@@ -4,7 +4,6 @@ import { filter, map, mergeMap } from 'rxjs';
 import { HeaderComponent } from './header/header.component';
 import { HeaderService } from './header/header.service';
 import { MainMenuComponent } from './main-menu/main-menu.component';
-import { EndOfLifeService } from './services/end-of-life.service';
 import { SharedModule } from './shared/shared.module';
 
 @Component({
@@ -16,15 +15,12 @@ import { SharedModule } from './shared/shared.module';
 })
 export class AppComponent implements OnInit {
   constructor(
-    public endOfLifeService: EndOfLifeService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private headerService: HeaderService
   ) {}
 
   ngOnInit(): void {
-    this.endOfLifeService.getAllProducts().subscribe((res) => console.log(res));
-
     // Listen for router navigation end event
     this.router.events
       .pipe(

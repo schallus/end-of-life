@@ -2,22 +2,39 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyMaterialModule } from '@ngx-formly/material';
+import {
+  AutocompleteTypeComponent,
+  ChipsAutocompleteType,
+} from './formly-types';
 
+const CUSTOM_FORMLY_TYPES = [AutocompleteTypeComponent, ChipsAutocompleteType];
 const SHARED_MODULES = [CommonModule, RouterModule, ReactiveFormsModule];
 const SHARED_MATERIAL_MODULES = [
   MatButtonModule,
-  MatFormFieldModule,
-  MatInputModule,
+  MatCardModule,
+  MatIconModule,
   MatListModule,
+  FormlyModule,
+  FormlyMaterialModule,
 ];
 
 @NgModule({
   declarations: [],
-  imports: [...SHARED_MODULES, ...SHARED_MATERIAL_MODULES],
-  exports: [...SHARED_MODULES, ...SHARED_MATERIAL_MODULES],
+  imports: [
+    ...SHARED_MODULES,
+    ...SHARED_MATERIAL_MODULES,
+    ...CUSTOM_FORMLY_TYPES,
+  ],
+  exports: [
+    ...SHARED_MODULES,
+    ...SHARED_MATERIAL_MODULES,
+    ...CUSTOM_FORMLY_TYPES,
+  ],
 })
 export class SharedModule {}
