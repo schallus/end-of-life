@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { FormlyFieldConfig } from '@ngx-formly/core';
-import { Product } from '../../models';
+import { Store } from '@ngrx/store';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { addProduct } from '../../actions/product.actions';
+import { ProductDTO } from '../../models';
 import { EndOfLifeService } from '../../services/end-of-life.service';
 import { SharedModule } from '../../shared/shared.module';
+import { AppState } from '../../states/app.states';
 
 @Component({
   selector: 'app-product-form',
@@ -14,10 +17,11 @@ import { SharedModule } from '../../shared/shared.module';
 })
 export class ProductFormComponent {
   form = new FormGroup({});
-  model: Partial<Product> = {};
+  model: Partial<ProductDTO> = {};
+  options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[];
 
-  constructor(private endOfLifeService: EndOfLifeService) {
+  constructor(private store: Store<AppState>, private endOfLifeService: EndOfLifeService) {
     this.fields = [
       {
         key: 'name',
@@ -45,13 +49,22 @@ export class ProductFormComponent {
         props: {
           required: true,
           label: 'Components',
-          filter: (term: string) => this.endOfLifeService.getAllProducts(term),
+          filter: (term: string) => this.endOfLifeService.getAllComponents(term),
         },
       },
     ];
   }
 
-  onSubmit(product: Partial<Product>) {
-    console.log(product);
+  onSubmit(product: Partial<ProductDTO>) {
+    if (this.form.invalid) {
+      return;
+    }
+
+    // TODO: For some reason I need to do a deep copy of the object otherwise it causes errors
+    const newProduct = structuredClone(product) as ProductDTO;
+
+    this.store.dispatch(addProduct({ product: newProduct }));
+
+    this.options.resetModel?.();
   }
 }

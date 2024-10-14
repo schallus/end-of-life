@@ -1,6 +1,6 @@
-export interface Product {
-  id: string;
+export interface ProductDTO {
+  id?: string;
   name: string;
-  note: string;
+  note?: string;
   components: string[];
 }

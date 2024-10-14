@@ -1,5 +1,5 @@
 import { provideHttpClient } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, isDevMode, provideZoneChangeDetection } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -8,6 +8,9 @@ import { provideStore } from '@ngrx/store';
 import { FormlyModule } from '@ngx-formly/core';
 import { appRoutes } from './app.routes';
 
+import { provideEffects } from '@ngrx/effects';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { ProductEffects } from './effects/product.effects';
 import { reducers } from './reducers';
 import { AutocompleteTypeComponent, ChipsAutocompleteType } from './shared/formly-types';
 
@@ -34,7 +37,15 @@ export const appConfig: ApplicationConfig = {
       }),
     ]),
     provideStore(reducers),
-    // provideEffects([ProductEffects]),
+    provideStoreDevtools({
+      maxAge: 25, // Retains last 25 states
+      logOnly: !isDevMode(), // Restrict extension to log-only mode
+      autoPause: true, // Pauses recording actions and state changes when the extension window is not open
+      trace: false, //  If set to true, will include stack trace for every dispatched action, so you can see it in trace tab jumping directly to that part of code
+      traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
+      connectInZone: true, // If set to true, the connection is established within the Angular zone
+    }),
+    provideEffects([ProductEffects]),
     provideFirebaseApp(() =>
       initializeApp({
         apiKey: 'AIzaSyBhB7ysHekRHsbn_VWXT_0DP2YaDiXQEMw',

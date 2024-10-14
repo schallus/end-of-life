@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { loadProducts } from '../../actions/product.actions';
-import { Product } from '../../models';
-import { ProductState } from '../../reducers/product.reducer';
+import { deleteProduct, loadProducts } from '../../actions/product.actions';
+import { ProductDTO } from '../../models';
 import { selectAllProducts } from '../../selectors/product.selectors';
 import { SharedModule } from '../../shared/shared.module';
+import { AppState } from '../../states/app.states';
 
 @Component({
   selector: 'app-products-list',
@@ -15,11 +15,16 @@ import { SharedModule } from '../../shared/shared.module';
   styleUrl: './products-list.component.scss',
 })
 export class ProductsListComponent {
-  allProducts$: Observable<Product[]>;
+  allProducts$: Observable<ProductDTO[]>;
+  displayedColumns = ['name', 'note', 'components', 'actions'];
 
-  constructor(private store: Store<ProductState>) {
+  constructor(private store: Store<AppState>) {
     this.allProducts$ = this.store.select(selectAllProducts);
 
     this.store.dispatch(loadProducts());
+  }
+
+  deleteProduct(product: ProductDTO): void {
+    this.store.dispatch(deleteProduct({ id: product.id! }));
   }
 }

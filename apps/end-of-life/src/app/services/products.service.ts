@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import {
+  addDoc,
   collection,
   collectionData,
   CollectionReference,
+  deleteDoc,
+  doc,
   DocumentData,
   Firestore,
   query,
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { Product } from '../models';
+import { from, map, Observable } from 'rxjs';
+import { ProductDTO } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -20,11 +23,26 @@ export class ProductsService {
     this.productCollection = collection(this.firestore, 'products');
   }
 
-  getAllProducts(): Observable<Product[]> {
+  getAllProducts(): Observable<ProductDTO[]> {
     const q = query(this.productCollection);
 
     return collectionData(q, {
       idField: 'id',
-    }) as Observable<Product[]>;
+    }) as Observable<ProductDTO[]>;
+  }
+
+  addProduct(product: ProductDTO): Observable<ProductDTO> {
+    return from(addDoc(this.productCollection, product)).pipe(
+      map((docRef) => ({
+        // Include the document ID from Firestore
+        id: docRef.id,
+        ...product,
+      }))
+    );
+  }
+
+  deleteProduct(productId: string): Observable<void> {
+    const productDocRef = doc(this.productCollection, productId);
+    return from(deleteDoc(productDocRef));
   }
 }

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
 @Injectable({
@@ -10,17 +10,19 @@ export class EndOfLifeService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getAllProducts(search?: string): Observable<string[]> {
+  getAllComponents(search?: string): Observable<string[]> {
     return this.httpClient
       .get<string[]>(`${this.BASE_URL}/all.json`)
       .pipe(
-        map((products) =>
+        map((components) =>
           search
-            ? products.filter((product) =>
-                product.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-              )
-            : products
+            ? components.filter((product) => product.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+            : components
         )
       );
+  }
+
+  getComponents(component?: string): Observable<Component[]> {
+    return this.httpClient.get<Component[]>(`${this.BASE_URL}/${component}.json`);
   }
 }
