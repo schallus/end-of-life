@@ -10,9 +10,9 @@ import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
-import { AutocompleteTypeComponent, ChipsAutocompleteType } from './formly-types';
+import { AutocompleteTypeComponent, ChipsAutocompleteType, RepeatTypeComponent } from './formly-types';
 
-const CUSTOM_FORMLY_TYPES = [AutocompleteTypeComponent, ChipsAutocompleteType];
+const CUSTOM_FORMLY_TYPES = [AutocompleteTypeComponent, ChipsAutocompleteType, RepeatTypeComponent];
 const SHARED_MODULES = [CommonModule, RouterModule, ReactiveFormsModule];
 const SHARED_MATERIAL_MODULES = [
   MatButtonModule,

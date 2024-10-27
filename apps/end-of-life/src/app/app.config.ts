@@ -12,7 +12,7 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { ProductEffects } from './effects/product.effects';
 import { reducers } from './reducers';
-import { AutocompleteTypeComponent, ChipsAutocompleteType } from './shared/formly-types';
+import { AutocompleteTypeComponent, ChipsAutocompleteType, RepeatTypeComponent } from './shared/formly-types';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -32,6 +32,10 @@ export const appConfig: ApplicationConfig = {
             name: 'chips',
             component: ChipsAutocompleteType,
             wrappers: ['form-field'],
+          },
+          {
+            name: 'repeat',
+            component: RepeatTypeComponent,
           },
         ],
       }),

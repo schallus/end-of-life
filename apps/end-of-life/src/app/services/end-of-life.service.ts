@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
+import { ComponentCycle } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class EndOfLifeService {
       );
   }
 
-  getComponents(component?: string): Observable<Component[]> {
-    return this.httpClient.get<Component[]>(`${this.BASE_URL}/${component}.json`);
+  getComponentCycles(component?: string): Observable<ComponentCycle[]> {
+    return this.httpClient.get<ComponentCycle[]>(`${this.BASE_URL}/${component}.json`);
   }
 }

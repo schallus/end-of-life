@@ -1,4 +1,4 @@
-export interface Component {
+export interface ComponentCycle {
   // Release Cycle
   cycle: number | string;
 

@@ -18,7 +18,9 @@
         <th mat-header-cell *matHeaderCellDef>Components</th>
         <td mat-cell *matCellDef="let element">
           <mat-chip-set>
-            <mat-chip *ngFor="let component of element.components">{{ component }}</mat-chip>
+            <mat-chip *ngFor="let component of element.components">
+              {{ component.component }} V{{ component.cycle }}
+            </mat-chip>
           </mat-chip-set>
         </td>
       </ng-container>

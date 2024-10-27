@@ -1,33 +1,20 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  DestroyRef,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, DestroyRef, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import {
-  MatAutocompleteModule,
-  MatAutocompleteSelectedEvent,
-} from '@angular/material/autocomplete';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { FieldTypeConfig, FormlyModule } from '@ngx-formly/core';
 import { FieldType } from '@ngx-formly/material';
 import { Observable, Subject } from 'rxjs';
-import { startWith, switchMap, take } from 'rxjs/operators';
+import { debounceTime, startWith, switchMap, take } from 'rxjs/operators';
 
 @Component({
   template: `
     <mat-chip-grid #chipGrid>
-      <mat-chip-row
-        *ngFor="let item of formControl.value; let i = index"
-        (removed)="remove(i)"
-      >
+      <mat-chip-row *ngFor="let item of formControl.value; let i = index" (removed)="remove(i)">
         {{ item }}
         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
       </mat-chip-row>
@@ -42,10 +29,7 @@ import { startWith, switchMap, take } from 'rxjs/operators';
         (blur)="onBlur()"
       />
     </mat-chip-grid>
-    <mat-autocomplete
-      #auto="matAutocomplete"
-      (optionSelected)="selected($event)"
-    >
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
       <mat-option *ngFor="let item of filter | async" [value]="item">
         {{ item }}
       </mat-option>
@@ -62,10 +46,7 @@ import { startWith, switchMap, take } from 'rxjs/operators';
     MatIconModule,
   ],
 })
-export class ChipsAutocompleteType
-  extends FieldType<FieldTypeConfig>
-  implements OnInit, OnDestroy
-{
+export class ChipsAutocompleteType extends FieldType<FieldTypeConfig> implements OnInit, OnDestroy {
   onDestroy$ = new Subject<void>();
 
   itemControl = new FormControl();
@@ -85,6 +66,7 @@ export class ChipsAutocompleteType
   ngOnInit() {
     this.filter = this.itemControl.valueChanges.pipe(
       startWith(''),
+      debounceTime(200),
       switchMap((term) => this.props['filter'](term) as Observable<any[]>)
     );
   }
